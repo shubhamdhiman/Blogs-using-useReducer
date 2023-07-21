@@ -1,4 +1,4 @@
-import { useState,useReducer } from "react";
+import { useState,useReducer,useRef } from "react";
 
 // Reducer function
 import {blogsReducer} from './reducer'
@@ -15,6 +15,9 @@ function App() {
     desc:"",
   })
 
+  // Using useRef to focus on the title bar
+  const titleRef = useRef(null)
+
   // Creating reducer state
   const[arr,dispatch] = useReducer(blogsReducer,[])
 
@@ -23,6 +26,7 @@ function App() {
     e.preventDefault();
     dispatch({type:"add",blog:{title:formData.title,desc:formData.desc}})
     setFormData({title:"",desc:""})
+    titleRef.current.focus()
   }
 
   // Remove blog from reducer
@@ -42,6 +46,7 @@ function App() {
             type="text"
             id="title"
             value={formData.title}
+            ref={titleRef}
             onChange={(e) => setFormData({title:e.target.value,desc:formData.desc})}
           />
           <label for="desc">
